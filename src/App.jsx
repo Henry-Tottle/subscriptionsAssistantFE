@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 import BooksDisplay from "./Components/BooksDisplay/index.jsx";
 import CategoryPicker from "./Components/CategoryPicker/index.jsx";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,15 +30,25 @@ function App() {
         getCategories();
     }, [selectedCategory]);
 
-  return (
+    const [bookID, setBookID] = useState()
+
+
+    return (
     <>
-        <div>
-            <h1>Subscriptions Assistant</h1>
-            <CategoryPicker categories={categories}
-                            selectedCategory={selectedCategory}
-                            setSelectedCategory={setSelectedCategory}/>
-            <BooksDisplay books={books} />
-        </div>
+        <BrowserRouter>
+            <div>
+                <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
+                <div className='flex justify-center w-full my-5'>
+                    <CategoryPicker categories={categories}
+                                    selectedCategory={selectedCategory}
+                                    setSelectedCategory={setSelectedCategory}/>
+                </div>
+                    <Routes>
+                        <Route path={`/${bookID}`} element={<SingleBookDisplay bookID={bookID} />} />
+                        <Route path={`/`} element={<BooksDisplay books={books} bookID={bookID} setBookID={setBookID}/>}/>
+                    </Routes>
+            </div>
+        </BrowserRouter>
     </>
   )
 }

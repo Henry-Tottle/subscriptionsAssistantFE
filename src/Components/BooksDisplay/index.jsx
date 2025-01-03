@@ -1,13 +1,20 @@
-function BooksDisplay({books}) {
+import {Link} from "react-router-dom";
+import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
+
+function BooksDisplay({books, bookID, setBookID}) {
+
         return (
-            <div>
+            <div className='border-4 rounded-2xl grid grid-cols-3 shadow-2xl '>
                 {books.map((book, i) => {
+                    const clickHandle = () => {
+                        setBookID(book.id)
+                    }
                    return (
-                       <div key={i}>
-                        <img alt={book.title + ' book cover'}  src={`https://jackets.dmmserver.com/media/356/${book.image}.jpg`} />
-                        <h3>{book.title}</h3>
-                        <h4>{book.author}</h4>
-                        <h4>£{book.price}</h4>
+                       <div key={i} className='border-4  text-center rounded-2xl m-3'>
+                            <SimpleBooksDetail book={book} />
+                            <Link to={`/${book.id}`}>
+                                <button className='bg-cyan-300 hover:bg-cyan-500 p-3 border-2 rounded-2xl' onClick={clickHandle}>More details</button>
+                            </Link>
                        </div>
                    )
                 })}
