@@ -12,7 +12,7 @@ function App() {
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState()
     const getBooks = async () => {
-      let url = selectedCategory ? 'http://0.0.0.0:8080/books/' + selectedCategory :'http://0.0.0.0:8080/books'
+      let url = selectedCategory ? 'http://0.0.0.0:8081/books/' + selectedCategory :'http://0.0.0.0:8081/books'
       let response = await fetch(url);
       let json = await response.json();
       console.log('url')
@@ -20,7 +20,7 @@ function App() {
     }
 
     const getCategories = async() => {
-      let response = await fetch('http://0.0.0.0:8080/categories');
+      let response = await fetch('http://0.0.0.0:8081/categories');
       let json = await response.json();
       setCategories(json.data);
 
