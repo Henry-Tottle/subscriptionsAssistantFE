@@ -12,7 +12,7 @@ function BooksDisplay({books, bookID, setBookID}) {
                    return (
                        <div key={i} className='border-4  text-center rounded-2xl m-3'>
                             <SimpleBooksDetail book={book} />
-                            <Link to={`/${book.id}`}>
+                            <Link to={`/book/${book.id}`}>
                                 <button className='bg-cyan-300 hover:bg-cyan-500 p-3 border-2 rounded-2xl' onClick={clickHandle}>More details</button>
                             </Link>
                        </div>

@@ -3,6 +3,7 @@ import BooksDisplay from "./Components/BooksDisplay/index.jsx";
 import CategoryPicker from "./Components/CategoryPicker/index.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
+import LandingPage from "./Components/LandingPage/index.jsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -44,8 +45,9 @@ function App() {
                                     setSelectedCategory={setSelectedCategory}/>
                 </div>
                     <Routes>
-                        <Route path={`/${bookID}`} element={<SingleBookDisplay bookID={bookID} />} />
-                        <Route path={`/`} element={<BooksDisplay books={books} bookID={bookID} setBookID={setBookID}/>}/>
+                        <Route path={'/'} element={<LandingPage/>} />
+                        <Route path={`/book/${bookID}`} element={<SingleBookDisplay bookID={bookID} />} />
+                        <Route path={`/book`} element={<BooksDisplay books={books} bookID={bookID} setBookID={setBookID}/>}/>
                     </Routes>
             </div>
         </BrowserRouter>

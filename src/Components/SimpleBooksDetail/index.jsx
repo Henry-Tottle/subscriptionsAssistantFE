@@ -6,6 +6,8 @@ function SimpleBooksDetail ({book}) {
             <h3 className='mx-auto'>{book.title}</h3>
             <h4 className='mx-auto'>{book.author}</h4>
             <h4 className='mx-auto'>£{book.price}</h4>
+            <h4 className='mx-auto'>{book.isbn}</h4>
+            <h4 className='mx-auto'>Picked {book.picksCount} times</h4>
         </>
     )
 }
