@@ -15,7 +15,6 @@ function App() {
       let url = selectedCategory ? 'http://0.0.0.0:8081/books/' + selectedCategory :'http://0.0.0.0:8081/books'
       let response = await fetch(url);
       let json = await response.json();
-      console.log('url')
       setBooks(json.data);
     }
 
@@ -40,6 +39,7 @@ function App() {
             <div>
                 <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
                 <div className='flex justify-center w-full my-5'>
+                    <span>Choose a category: </span>
                     <CategoryPicker categories={categories}
                                     selectedCategory={selectedCategory}
                                     setSelectedCategory={setSelectedCategory}/>

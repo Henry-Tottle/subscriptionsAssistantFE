@@ -27,12 +27,10 @@ function SingleBookDisplay({bookID}) {
         let response = await fetch(url);
         let json = await response.json()
         setSubjects(json[`ISBN:${isbn}`].subjects)
-        console.log(json[`ISBN:${isbn}`].subjects)
 
     }
 
     const displaySubjects = (subjects) => {
-        console.log('this is the one', subjects)
         return subjects.map((subject, i) =>
              (<span key={i}>{subject.name} || </span>)
         )
@@ -71,6 +69,7 @@ function SingleBookDisplay({bookID}) {
     return (
         <div className='text-center'>
             <h1>{bookID}</h1>
+            {!subjects && <div>Loading subjects...</div>}
             {subjects && displaySubjects(subjects)}
             <SimpleBooksDetail book={book}/>
             {description && <p>{description}</p>}
