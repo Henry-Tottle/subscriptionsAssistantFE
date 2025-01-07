@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import {useEffect, useState} from "react";
+import Button from "../Button/index.jsx";
 function SingleBookDisplay({bookID}) {
 
     const [book, setBook] = useState()
@@ -32,7 +33,7 @@ function SingleBookDisplay({bookID}) {
 
     const displaySubjects = (subjects) => {
         return subjects.map((subject, i) =>
-             (<span key={i}>{subject.name} || </span>)
+             (<li key={i}>{subject.name}</li>)
         )
     }
 
@@ -67,20 +68,22 @@ function SingleBookDisplay({bookID}) {
 
 
     return (
-        <div className='text-center'>
-            <h1>{bookID}</h1>
-            {!subjects && <div>Loading subjects...</div>}
-            {subjects && displaySubjects(subjects)}
+        <div className='text-center w-full'>
+
             <SimpleBooksDetail book={book}/>
-            {description && <p>{description}</p>}
+            {description && <p className='w-1/2 mx-auto'>{description}</p>}
             <form>
                 <label>Tags: <input type='text'/></label>
                 <input type='submit'/>
             </form>
+            <div className='border-2 w-1/2 mx-auto'>
+                {!subjects && <div>Loading subjects...</div>}
+                <ul>{subjects && displaySubjects(subjects)}</ul>
+            </div>
 
             {
                 <Link to={'/book'}>
-                    <button>Back</button>
+                    <Button buttonText='Back'/>
                 </Link>
             }
         </div>

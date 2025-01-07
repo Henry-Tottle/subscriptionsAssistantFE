@@ -1,4 +1,4 @@
-function CategoryPicker({categories, setSelectedCategory, selectedCategory}) {
+function CategoryPicker({categories, setSelectedCategory}) {
     const clickHandler = (e) => {
        setSelectedCategory(e.target.value)
     }

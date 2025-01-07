@@ -6,7 +6,6 @@ import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 import LandingPage from "./Components/LandingPage/index.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
     const [books, setBooks] = useState([])
     const [categories, setCategories] = useState([])
@@ -33,21 +32,19 @@ function App() {
     const [bookID, setBookID] = useState()
 
 
+
     return (
     <>
         <BrowserRouter>
-            <div>
+            <div className='bg-cyan-800 text-neutral-50'>
                 <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
-                <div className='flex justify-center w-full my-5'>
-                    <span>Choose a category: </span>
-                    <CategoryPicker categories={categories}
-                                    selectedCategory={selectedCategory}
-                                    setSelectedCategory={setSelectedCategory}/>
-                </div>
+
                     <Routes>
                         <Route path={'/'} element={<LandingPage/>} />
                         <Route path={`/book/${bookID}`} element={<SingleBookDisplay bookID={bookID} />} />
-                        <Route path={`/book`} element={<BooksDisplay books={books} bookID={bookID} setBookID={setBookID}/>}/>
+                        <Route path={`/book`} element={<BooksDisplay books={books} bookID={bookID} setBookID={setBookID}
+                                                                     categories={categories}
+                                                                     setSelectedCategory={setSelectedCategory}/>}/>
                     </Routes>
             </div>
         </BrowserRouter>

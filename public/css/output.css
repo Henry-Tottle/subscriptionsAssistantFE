@@ -558,6 +558,11 @@ video {
   margin: 0.75rem;
 }
 
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -568,12 +573,12 @@ video {
   margin-bottom: 1.25rem;
 }
 
-.flex {
-  display: flex;
-}
-
 .grid {
   display: grid;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-full {
@@ -582,10 +587,6 @@ video {
 
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.justify-center {
-  justify-content: center;
 }
 
 .rounded-2xl {
@@ -610,6 +611,11 @@ video {
   background-color: rgb(6 182 212 / var(--tw-bg-opacity, 1));
 }
 
+.bg-cyan-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 94 117 / var(--tw-bg-opacity, 1));
+}
+
 .p-3 {
   padding: 0.75rem;
 }
@@ -621,6 +627,11 @@ video {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-neutral-50 {
+  --tw-text-opacity: 1;
+  color: rgb(250 250 250 / var(--tw-text-opacity, 1));
 }
 
 .shadow-2xl {
