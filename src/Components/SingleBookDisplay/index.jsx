@@ -10,6 +10,8 @@ function SingleBookDisplay({bookID}) {
     //This uses google books API but is it actually being used for anything?
     const [description, setDescription] = useState()
     const [subjects, setSubjects] = useState([])
+
+    const [tags, setTags] = useState()
     const getBookByID = async (bookID) => {
         let url = 'http://0.0.0.0:8081/book/' + bookID;
         let response = await fetch(url);
@@ -22,7 +24,9 @@ function SingleBookDisplay({bookID}) {
         let response = await fetch(url);
         let json = await response.json();
         setBookDetails(json)
-        setDescription(json.items[0].volumeInfo.description)
+        if (json.items){
+            setDescription(json.items[0].volumeInfo.description)
+        }
     }
 
     const getSubjects = async (isbn) => {
@@ -39,10 +43,23 @@ function SingleBookDisplay({bookID}) {
         )
     }
 
+    const displayTags = (tags) => {
+        return tags.map((tag, i) =>
+            (<li key={i}>{tag.tag}</li>))
+    }
+
+    const getTagsForSingleBook = async (bookID) => {
+        let url = 'http://0.0.0.0:8081/book/' + bookID + '/tags';
+        let response = await fetch(url);
+        let json = await response.json()
+        console.log(json.data)
+        setTags(json.data)
+    }
+
     useEffect(() => {
         if (bookID) {
             getBookByID(bookID)
-            console.log(book)
+            getTagsForSingleBook(bookID)
         }
     }, [bookID]);
 
@@ -50,7 +67,6 @@ function SingleBookDisplay({bookID}) {
         if(book?.isbn)
         {
             getBookDetails(book.isbn)
-
         }
     }, [book]);
 
@@ -80,6 +96,7 @@ function SingleBookDisplay({bookID}) {
                 <input type='submit'/>
             </form>
             <div className='border-2 w-1/2 mx-auto my-5'>
+                <ul className='border-2 rounded-br'>Mr B's Tags: {tags && displayTags(tags)}</ul>
                 {!subjects && <div>Loading subjects...</div>}
                 <ul className='p-3'>{subjects && displaySubjects(subjects)}</ul>
             </div>
