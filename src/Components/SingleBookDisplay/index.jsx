@@ -5,7 +5,9 @@ import Button from "../Button/index.jsx";
 function SingleBookDisplay({bookID}) {
 
     const [book, setBook] = useState()
+    //This uses subscriptions API
     const [bookDetails, setBookDetails] = useState()
+    //This uses google books API but is it actually being used for anything?
     const [description, setDescription] = useState()
     const [subjects, setSubjects] = useState([])
     const getBookByID = async (bookID) => {
@@ -40,6 +42,7 @@ function SingleBookDisplay({bookID}) {
     useEffect(() => {
         if (bookID) {
             getBookByID(bookID)
+            console.log(book)
         }
     }, [bookID]);
 
@@ -73,12 +76,12 @@ function SingleBookDisplay({bookID}) {
             <SimpleBooksDetail book={book}/>
             {description && <p className='w-1/2 mx-auto'>{description}</p>}
             <form>
-                <label>Tags: <input type='text'/></label>
+                <label>Tags: <input className='m-5 rounded-2xl border-2 border-gray-300 px-4 py-2 text-gray-700 bg-white ring-2 ring-blue-500' type='text'/></label>
                 <input type='submit'/>
             </form>
-            <div className='border-2 w-1/2 mx-auto'>
+            <div className='border-2 w-1/2 mx-auto my-5'>
                 {!subjects && <div>Loading subjects...</div>}
-                <ul>{subjects && displaySubjects(subjects)}</ul>
+                <ul className='p-3'>{subjects && displaySubjects(subjects)}</ul>
             </div>
 
             {
