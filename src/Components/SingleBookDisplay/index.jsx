@@ -10,8 +10,9 @@ function SingleBookDisplay({bookID}) {
     //This uses google books API but is it actually being used for anything?
     const [description, setDescription] = useState()
     const [subjects, setSubjects] = useState([])
-
     const [tags, setTags] = useState()
+    const [userInputTag, setUserInputTag] = useState()
+
     const getBookByID = async (bookID) => {
         let url = 'http://0.0.0.0:8081/book/' + bookID;
         let response = await fetch(url);
@@ -56,6 +57,43 @@ function SingleBookDisplay({bookID}) {
         setTags(json.data)
     }
 
+    const addTagForSingleBook = async (bookID, tag) => {
+        let url = 'http://0.0.0.0:8081/book/add-tag';
+        let payload = {
+            book_id : bookID,
+            tag : tag
+        };
+
+        try {
+            let response = await fetch(url, {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify(payload),
+                mode: 'cors',
+                credentials: 'include'
+            });
+
+            let data = await response.json();
+
+            return data;
+
+        } catch (error) {
+            console.error('Error occurred during POST request: ', error);
+        }
+    }
+
+    const submitClickHandler = (e) => {
+        e.preventDefault();
+        if (bookID && userInputTag) {
+            addTagForSingleBook(bookID, userInputTag)
+            setUserInputTag('')
+        } else {
+            console.warn('Make sure you have entered a tag.')
+        }
+    }
+
     useEffect(() => {
         if (bookID) {
             getBookByID(bookID)
@@ -85,15 +123,18 @@ function SingleBookDisplay({bookID}) {
     }
 
 
-
+    console.log('Book ID: ', bookID)
     return (
         <div className='text-center w-full'>
 
             <SimpleBooksDetail book={book}/>
             {description && <p className='w-1/2 mx-auto'>{description}</p>}
-            <form>
-                <label>Tags: <input className='m-5 rounded-2xl border-2 border-gray-300 px-4 py-2 text-gray-700 bg-white ring-2 ring-blue-500' type='text'/></label>
-                <input type='submit'/>
+            <form onSubmit={submitClickHandler}>
+                <label>Tags: <input className='m-5 rounded-2xl border-2 border-gray-300 px-4 py-2 text-gray-700 bg-white ring-2 ring-blue-500'
+                                    type='text'
+                                    value={userInputTag}
+                                    onChange={(e) => setUserInputTag(e.target.value)}/></label>
+                <button type='submit' >Add Tag</button>
             </form>
             <div className='border-2 w-1/2 mx-auto my-5'>
                 <ul className='border-2 rounded-br'>Mr B's Tags: {tags && displayTags(tags)}</ul>
