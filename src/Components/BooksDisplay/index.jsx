@@ -16,7 +16,7 @@ function BooksDisplay({books, bookID, setBookID, categories, setSelectedCategory
                     <span onClick={handleClearCategories}> clear x</span>
 
                 </div>
-                <div className='border-4 rounded-2xl grid grid-cols-3 shadow-2xl '>
+                <div className='border-4 rounded-2xl grid grid-cols-4 shadow-2xl '>
 
                 {books.map((book, i) => {
                     const clickHandle = () => {

@@ -12,6 +12,9 @@ function SingleBookDisplay({bookID}) {
     const [subjects, setSubjects] = useState([])
     const [tags, setTags] = useState()
     const [userInputTag, setUserInputTag] = useState()
+    const [buttonToggle, setButtonToggle] = useState(false)
+
+
 
     const getBookByID = async (bookID) => {
         let url = 'http://0.0.0.0:8081/book/' + bookID;
@@ -46,37 +49,28 @@ function SingleBookDisplay({bookID}) {
 
     const displayTags = (tags) => {
         return tags.map((tag, i) =>
-            (<li key={i}>{tag.tag}</li>))
+            (
+                <li key={i}>{tag.tag}</li>
+            ))
     }
 
     const getTagsForSingleBook = async (bookID) => {
         let url = 'http://0.0.0.0:8081/book/' + bookID + '/tags';
         let response = await fetch(url);
         let json = await response.json()
-        console.log(json.data)
         setTags(json.data)
     }
 
     const addTagForSingleBook = async (bookID, tag) => {
-        let url = 'http://0.0.0.0:8081/book/add-tag';
-        let payload = {
-            book_id : bookID,
-            tag : tag
-        };
+        let url = `http://0.0.0.0:8081/books/actions/add-tag?book_id=${encodeURIComponent(bookID)}&tag=${encodeURIComponent(tag)}`;
+
 
         try {
             let response = await fetch(url, {
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify(payload),
-                mode: 'cors',
-                credentials: 'include'
+                method : 'GET'
             });
 
             let data = await response.json();
-
             return data;
 
         } catch (error) {
@@ -92,14 +86,17 @@ function SingleBookDisplay({bookID}) {
         } else {
             console.warn('Make sure you have entered a tag.')
         }
+        setButtonToggle(!buttonToggle)
     }
+
+
 
     useEffect(() => {
         if (bookID) {
             getBookByID(bookID)
             getTagsForSingleBook(bookID)
         }
-    }, [bookID]);
+    }, [bookID, buttonToggle]);
 
     useEffect(() => {
         if(book?.isbn)
@@ -123,7 +120,6 @@ function SingleBookDisplay({bookID}) {
     }
 
 
-    console.log('Book ID: ', bookID)
     return (
         <div className='text-center w-full'>
 

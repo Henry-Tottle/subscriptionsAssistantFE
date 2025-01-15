@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
 import BooksDisplay from "./Components/BooksDisplay/index.jsx";
-import CategoryPicker from "./Components/CategoryPicker/index.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 import LandingPage from "./Components/LandingPage/index.jsx";
@@ -10,6 +9,7 @@ function App() {
     const [books, setBooks] = useState([])
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState()
+
     const getBooks = async () => {
       let url = selectedCategory ? 'http://0.0.0.0:8081/books/' + selectedCategory :'http://0.0.0.0:8081/books'
       let response = await fetch(url);
@@ -23,6 +23,11 @@ function App() {
       setCategories(json.data);
 
     }
+
+
+
+
+
 
     useEffect(() => {
         getBooks();
