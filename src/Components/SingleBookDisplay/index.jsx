@@ -65,15 +65,24 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
     }
 
     const addTagForSingleBook = async (bookID, tag) => {
-        let url = `http://0.0.0.0:8081/books/actions/add-tag?book_id=${encodeURIComponent(bookID)}&tag=${encodeURIComponent(tag)}`;
-
+        let url = 'http://0.0.0.0:8081/books/actions/add-tag';
+        let payload = {
+            book_id : bookID,
+            tag : tag
+        };
 
         try {
             let response = await fetch(url, {
-                method: 'GET'
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify(payload),
+                mode: 'cors',
             });
 
             let data = await response.json();
+
             return data;
 
         } catch (error) {
@@ -81,10 +90,10 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
         }
     }
 
-    const submitClickHandler = (e) => {
+    const submitClickHandler = async (e) => {
         e.preventDefault();
         if (bookID && userInputTag) {
-            addTagForSingleBook(bookID, userInputTag)
+            await addTagForSingleBook(bookID, userInputTag)
             setUserInputTag('')
         } else {
             console.warn('Make sure you have entered a tag.')
@@ -98,7 +107,13 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
             getBookByID(bookID)
             getTagsForSingleBook(bookID)
         }
-    }, [bookID, buttonToggle]);
+    }, [bookID]);
+
+    useEffect(() => {
+        if(bookID){
+            getTagsForSingleBook(bookID)
+        }
+    }, [buttonToggle]);
 
     useEffect(() => {
         if (book?.isbn) {
