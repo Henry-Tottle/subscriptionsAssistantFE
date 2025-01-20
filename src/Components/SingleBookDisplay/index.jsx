@@ -20,6 +20,7 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
         let url = 'http://0.0.0.0:8081/book/' + bookID;
         let response = await fetch(url);
         let json = await response.json();
+        console.log(bookID)
         setBook(json.data)
     }
 
