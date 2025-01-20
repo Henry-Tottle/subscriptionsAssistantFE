@@ -3,7 +3,8 @@ import BooksDisplay from "./Components/BooksDisplay/index.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 import LandingPage from "./Components/LandingPage/index.jsx";
-import DisplayQtySelector from "./Components/displayQtySelector/index.jsx";
+import DisplayQtySelector from "./Components/DisplayQtySelector/index.jsx";
+import SearchBar from "./Components/SearchBar/index.jsx";
 
 function App() {
 
@@ -77,6 +78,9 @@ function App() {
                 <div className='bg-cyan-800 text-neutral-50'>
 
                     <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
+                    <div>
+                        <SearchBar setBooks={setBooks} qty={qty}/>
+                    </div>
                     <div className='flex justify-between'>
                         <DisplayQtySelector setQty={setQty}/>
                         <div>
