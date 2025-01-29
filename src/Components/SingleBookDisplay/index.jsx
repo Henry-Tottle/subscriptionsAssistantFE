@@ -136,7 +136,11 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
 
     return (
         <div className='text-center w-full'>
-
+            {
+                <Link to={'/book'}>
+                    <Button buttonText='Back'/>
+                </Link>
+            }
             <SimpleBooksDetail book={book}/>
             {description && <p className='w-1/2 mx-auto'>{description}</p>}
             <form onSubmit={submitClickHandler}>
