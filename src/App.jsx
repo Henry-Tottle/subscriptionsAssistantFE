@@ -1,10 +1,12 @@
 import {useEffect, useState} from 'react'
 import BooksDisplay from "./Components/BooksDisplay/index.jsx";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 import LandingPage from "./Components/LandingPage/index.jsx";
 import DisplayQtySelector from "./Components/DisplayQtySelector/index.jsx";
 import SearchBar from "./Components/SearchBar/index.jsx";
+import TagsList from "./Components/TagsList/index.jsx";
+import BookImporter from "./Components/BookImporter/index.jsx";
 
 function App() {
 
@@ -14,25 +16,29 @@ function App() {
     const [selectedTag, setSelectedTag] = useState()
     const [tags, setTags] = useState([])
     const [qty, setQty] = useState(25)
+    const [titleText, setTitleText] = useState()
 
     const getBooks = async () => {
         if (selectedCategory) {
-            let url = 'http://0.0.0.0:8081/books/' + selectedCategory + '/' + qty
+            let url = 'http://0.0.0.0:8081/books/category/' + selectedCategory + '/' + qty
             let response = await fetch(url);
             let json = await response.json();
             setBooks(json.data);
+            setTitleText(selectedCategory + ' books: ')
             console.log('category filter: ', json.data)
         } else if (selectedTag) {
             let url = 'http://0.0.0.0:8081/books/tags/' + selectedTag
             let response = await fetch(url);
             let json = await response.json();
             setBooks(json.data);
+            setTitleText(selectedTag + ' books: ')
             console.log('tags filter: ', json.data)
         } else {
-            let url = 'http://0.0.0.0:8081/books/' + qty
+            let url = 'http://0.0.0.0:8081/books/' + qty + '/'
             let response = await fetch(url);
             let json = await response.json();
             setBooks(json.data);
+            setTitleText('All books: ')
             console.log('No filter: ', json.data)
         }
     }
@@ -65,11 +71,8 @@ function App() {
     }, [selectedCategory, selectedTag, qty]);
 
     const [bookID, setBookID] = useState()
-    const [buttonToggle, setButtonToggle] = useState(false)
 
-    const showTagsHandler = () => {
-        setButtonToggle(!buttonToggle)
-    }
+
 
     return (
         <>
@@ -78,26 +81,26 @@ function App() {
                 <div className='bg-cyan-800 text-neutral-50'>
 
                     <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
+                    <Link to={'/book'}><h6>Home</h6></Link>
+                    <Link to={'/import'}><h6>Book Importer</h6></Link>
                     <div>
                         <SearchBar setBooks={setBooks} qty={qty}/>
                     </div>
+
                     <div className='flex justify-between'>
                         <DisplayQtySelector setQty={setQty}/>
-                        <div>
-                            <button onClick={showTagsHandler}>Show Tags</button>
-                            {buttonToggle && <div>{tags.map((tag, i) => (
-                                <p key={i} onClick={() => setSelectedTag(tag.tag)}>{tag.tag}</p>
-                            ))}</div>}
-                        </div>
+                        <TagsList tags={tags} setSelectedTag={setSelectedTag}/>
                     </div>
                     <Routes>
                         <Route path={'/'} element={<LandingPage/>}/>
+                        <Route path={'/import'} element={<BookImporter/>}/>
                         <Route path={`/book/${bookID}`}
                                element={<SingleBookDisplay bookID={bookID}
                                                            setSelectedTag={setSelectedTag}
                                                            setSelectedCategory={setSelectedCategory}/>}/>
                         <Route path={`/book`} element={<BooksDisplay books={books}
                                                                      bookID={bookID}
+                                                                     titleText={titleText}
                                                                      setBookID={setBookID}
                                                                      categories={categories}
                                                                      setSelectedCategory={setSelectedCategory}

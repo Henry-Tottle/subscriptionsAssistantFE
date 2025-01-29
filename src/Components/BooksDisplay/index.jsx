@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import CategoryPicker from "../CategoryPicker/index.jsx";
 
-function BooksDisplay({books, setBookID, categories, setSelectedCategory, setSelectedTags}) {
+function BooksDisplay({books, setBookID,titleText, categories, setSelectedCategory, setSelectedTags}) {
 
     const handleClearCategories = () => {
         setSelectedCategory(null)
@@ -16,6 +16,8 @@ function BooksDisplay({books, setBookID, categories, setSelectedCategory, setSel
                                 setSelectedCategory={setSelectedCategory}/>
                 <span onClick={handleClearCategories}> clear x</span>
             </div>
+            <h1 className='text-center text-4xl'>{titleText}</h1>
+
             <div className='border-4 rounded-2xl grid grid-cols-4 shadow-2xl '>
 
                 {books.map((book, i) => {
