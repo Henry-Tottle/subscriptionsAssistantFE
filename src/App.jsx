@@ -7,15 +7,18 @@ import DisplayQtySelector from "./Components/DisplayQtySelector/index.jsx";
 import SearchBar from "./Components/SearchBar/index.jsx";
 import TagsList from "./Components/TagsList/index.jsx";
 import BookImporter from "./Components/BookImporter/index.jsx";
+import FormatPicker from "./Components/FormatPicker/index.jsx";
+import TagsCheckboxList from "./Components/TagsCheckboxList/index.jsx";
 
 function App() {
 
     const [books, setBooks] = useState([])
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState()
-    const [selectedTag, setSelectedTag] = useState()
+    const [selectedTag, setSelectedTag] = useState([])
     const [tags, setTags] = useState([])
     const [qty, setQty] = useState(25)
+    const [format, setFormat] = useState('')
     const [titleText, setTitleText] = useState()
 
     const getBooks = async () => {
@@ -25,21 +28,12 @@ function App() {
             let json = await response.json();
             setBooks(json.data);
             setTitleText(selectedCategory + ' books: ')
-            console.log('category filter: ', json.data)
-        } else if (selectedTag) {
-            let url = 'http://0.0.0.0:8081/books/tags/' + selectedTag
-            let response = await fetch(url);
-            let json = await response.json();
-            setBooks(json.data);
-            setTitleText(selectedTag + ' books: ')
-            console.log('tags filter: ', json.data)
         } else {
-            let url = 'http://0.0.0.0:8081/books/' + qty + '/'
+            let url = 'http://0.0.0.0:8081/books/filter?limit=' + qty + (format ? format : '') + (selectedTag ? '&tags=' + selectedTag : '')
             let response = await fetch(url);
             let json = await response.json();
             setBooks(json.data);
             setTitleText('All books: ')
-            console.log('No filter: ', json.data)
         }
     }
 
@@ -68,7 +62,8 @@ function App() {
     useEffect(() => {
         getBooks();
         getCategories();
-    }, [selectedCategory, selectedTag, qty]);
+        console.log(format)
+    }, [selectedCategory, selectedTag, qty, format]);
 
     const [bookID, setBookID] = useState()
 
@@ -88,8 +83,12 @@ function App() {
                     </div>
 
                     <div className='flex justify-between'>
-                        <DisplayQtySelector setQty={setQty}/>
-                        <TagsList tags={tags} setSelectedTag={setSelectedTag}/>
+                        <div className='flex flex-col gap-1'>
+                            <FormatPicker setFormat={setFormat}/>
+                            <DisplayQtySelector setQty={setQty}/>
+                        </div>
+                        {/*<TagsList tags={tags} setSelectedTag={setSelectedTag}/>*/}
+                        <TagsCheckboxList tags={tags} setSelectedTag={setSelectedTag}/>
                     </div>
                     <Routes>
                         <Route path={'/'} element={<LandingPage/>}/>
@@ -104,7 +103,7 @@ function App() {
                                                                      setBookID={setBookID}
                                                                      categories={categories}
                                                                      setSelectedCategory={setSelectedCategory}
-                                                                     setSelectedTags={setSelectedTag}/>}/>
+                                                                     setSelectedTag={setSelectedTag}/>}/>
                     </Routes>
                 </div>
             </BrowserRouter>
