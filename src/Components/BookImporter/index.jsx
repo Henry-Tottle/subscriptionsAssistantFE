@@ -1,14 +1,36 @@
 // import ConvertCsvToJson from "convert-csv-to-json";
 import Papa from "papaparse";
-import {useState} from "react";
+import {useState , useRef} from "react";
 
 function BookImporter () {
 
     const [file, setFile] = useState()
+    const fileInputRef = useRef(null)
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
 
+    }
+
+    const importToDatabase = async (bookData) => {
+        let url = 'http://0.0.0.0:8081/books/importBooks';
+        let payload = {books : bookData};
+        try {
+            let response = await fetch(url, {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(payload),
+                mode : 'cors'
+            });
+
+            let data = await response.json();
+
+            return data;
+        } catch (error) {
+            console.error('Error occured during POST request: ', error);
+        }
     }
 
     const handleFormSubmit = (e) => {
@@ -28,6 +50,13 @@ function BookImporter () {
                 complete:(results) => {
                     console.log("Converted JSON: ", results.data)
                     alert("CSV successfully converted to JSON. Check the console!")
+                    importToDatabase(results.data)
+
+
+                    setFile(null);
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = ""
+                    }
                 },
                 error:(error)=> {
                     console.error("Error parsing CSV: ", error)
