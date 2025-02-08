@@ -5,11 +5,15 @@ function FormatPicker ({setFormat}) {
     }
 
     return (
-        <select onChange={changeHandler} className='text-black'>
-            <option value=''>Both</option>
-            <option value='&format=Paperback / softback'>Paperback</option>
-            <option value='&format=Hardback'>Hardback</option>
-        </select>
+        <>
+            <h3>Format: </h3>
+            <select onChange={changeHandler} className='text-black'>
+                <option value=''>Both</option>
+                <option value='&format=Paperback / softback'>Paperback</option>
+                <option value='&format=Hardback'>Hardback</option>
+            </select>
+        </>
+
     )
 }
 

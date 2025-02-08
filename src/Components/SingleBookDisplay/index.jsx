@@ -1,11 +1,12 @@
-import {Link} from "react-router-dom";
+import {Link, useParams } from "react-router-dom";
 import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import {useEffect, useState} from "react";
 import Button from "../Button/index.jsx";
 
-function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
+function SingleBookDisplay({setSelectedTag, setSelectedCategory}) {
 
     const [book, setBook] = useState()
+    const {bookID} = useParams()
     //This uses subscriptions API
     const [bookDetails, setBookDetails] = useState()
     //This uses google books API but is it actually being used for anything?
@@ -16,23 +17,43 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
     const [buttonToggle, setButtonToggle] = useState(false)
 
 
-    const getBookByID = async (bookID) => {
-        let url = 'http://0.0.0.0:8081/book/' + bookID;
+    const getBookByID = async (id) => {
+        let url = 'http://0.0.0.0:8081/book/' + id
         let response = await fetch(url);
         let json = await response.json();
-        console.log(bookID)
         setBook(json.data)
     }
 
     const getBookDetails = async (input) => {
         let url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + input;
-        let response = await fetch(url);
-        let json = await response.json();
-        setBookDetails(json)
-        if (json.items) {
-            setDescription(json.items[0].volumeInfo.description)
+
+        const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out')), 5000)
+        )
+        try {
+            const response = await Promise.race([fetch(url), timeoutPromise])
+            const json = await response.json()
+            setBookDetails(json)
+
+            if (json.items && json.items[0].volumeInfo.description) {
+                setDescription(json.items[0].volumeInfo.description)
+            } else {
+                setDescription('No description available from Google Books yet')
+            }
         }
-    }
+        catch (e) {
+            console.error('Error fetching book details:', e)
+            setDescription('No description available from Google Books yet')
+        }
+        }
+
+        // let response = await fetch(url);
+        // let json = await response.json();
+        // setBookDetails(json)
+        // if (json.items) {
+        //     setDescription(json.items[0].volumeInfo.description)
+        // }
+
 
     const getSubjects = async (isbn) => {
         let url = 'https://openlibrary.org/api/books?bibkeys=ISBN:' + isbn + '&jscmd=data&format=json'
@@ -48,13 +69,17 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
         )
     }
 
+    const removeTag = (tag) => {
+        console.log(tag.tag, bookID)
+    }
+
     const displayTags = (tags) => {
         return tags.map((tag, i) =>
             (
                 <li key={i} onClick={() => {
                     setSelectedTag(tag.tag);
                     setSelectedCategory('')
-                }}><Link to={'/book'}>{tag.tag}</Link></li>
+                }}><Link to={'/book'}>{tag.tag}</Link><span onClick={()=>{console.log('tag: ',tag.tag, 'Book id: ', bookID)}}> X </span></li>
             ))
     }
 
@@ -108,13 +133,9 @@ function SingleBookDisplay({bookID, setSelectedTag, setSelectedCategory}) {
             getBookByID(bookID)
             getTagsForSingleBook(bookID)
         }
-    }, [bookID]);
+    }, [bookID, buttonToggle]);
 
-    useEffect(() => {
-        if(bookID){
-            getTagsForSingleBook(bookID)
-        }
-    }, [buttonToggle]);
+
 
     useEffect(() => {
         if (book?.isbn) {

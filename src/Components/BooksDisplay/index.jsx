@@ -25,6 +25,7 @@ function BooksDisplay({books, setBookID,titleText, categories, setSelectedCatego
                         setBookID(book.id)
                     }
                     return (
+
                         <div key={i} className='border-4  text-center rounded-2xl m-3'>
                             <SimpleBooksDetail book={book}/>
                             <Link to={`/book/${book.id}`}>
