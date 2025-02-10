@@ -2,11 +2,11 @@ import {Link} from "react-router-dom";
 import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import CategoryPicker from "../CategoryPicker/index.jsx";
 
-function BooksDisplay({books, setBookID,titleText, categories, setSelectedCategory, setSelectedTags}) {
+function BooksDisplay({books, setBookID,titleText, categories, setSelectedCategory, setSelectedTag}) {
 
     const handleClearCategories = () => {
         setSelectedCategory(null)
-        setSelectedTags(null)
+        setSelectedTag([null])
     }
     return (
         <>
