@@ -3,7 +3,7 @@ import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import {useEffect, useState} from "react";
 import Button from "../Button/index.jsx";
 
-function SingleBookDisplay({setSelectedTag, setSelectedCategory}) {
+function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, submit}) {
 
     const [book, setBook] = useState()
     const {bookID} = useParams()
@@ -69,8 +69,19 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory}) {
         )
     }
 
-    const removeTag = (tag) => {
-        console.log(tag.tag, bookID)
+    const removeTag = async (tag, bookID) => {
+        console.log(tag, bookID)
+        let url = 'http://0.0.0.0:8081/delete/tags/' + bookID + '/' + tag
+        let response = await fetch(url,{
+            method: "DELETE",
+                headers: {
+                "Content-Type": "application/json",
+            },})
+        await getTagsForSingleBook(bookID)
+        setSubmit(!submit)
+        let json = await response.json()
+        console.log(json)
+
     }
 
     const displayTags = (tags) => {
@@ -79,7 +90,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory}) {
                 <li key={i} onClick={() => {
                     setSelectedTag(tag.tag);
                     setSelectedCategory('')
-                }}><Link to={'/book'}>{tag.tag}</Link><span onClick={()=>{console.log('tag: ',tag.tag, 'Book id: ', bookID)}}> X </span></li>
+                }}><Link to={'/book'}>{tag.tag}</Link><span onClick={() => removeTag(tag.tag, bookID)}> X </span></li>
             ))
     }
 
@@ -108,6 +119,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory}) {
             });
 
             let data = await response.json();
+            setSubmit(!submit)
 
             return data;
 

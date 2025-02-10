@@ -23,6 +23,7 @@ function App() {
     const [titleText, setTitleText] = useState('')
     const [sort, setSort] = useState('')
     const [order, setOrder] = useState('')
+    const [submit, setSubmit] = useState(false)
 
     const getBooks = async () => {
         if (selectedCategory) {
@@ -66,7 +67,7 @@ function App() {
 
     useEffect(() => {
         getDistinctTags()
-    }, []);
+    }, [submit]);
 
 
     useEffect(() => {
@@ -117,7 +118,9 @@ function App() {
                                 <Route path={`/book/:bookID`}
                                        element={<SingleBookDisplay
                                                                    setSelectedTag={setSelectedTag}
-                                                                   setSelectedCategory={setSelectedCategory}/>}/>
+                                                                   setSelectedCategory={setSelectedCategory}
+                                                                   submit={submit}
+                                                                   setSubmit={setSubmit}/>}/>
                                 <Route path={`/book`} element={<BooksDisplay books={books}
                                                                              bookID={bookID}
                                                                              titleText={titleText}
