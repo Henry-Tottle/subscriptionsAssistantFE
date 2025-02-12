@@ -26,15 +26,10 @@ function App() {
     const [submit, setSubmit] = useState(false)
 
     const getBooks = async () => {
-        if (selectedCategory) {
-            let url = 'http://0.0.0.0:8081/books/category/' + selectedCategory + '/' + qty
-            let response = await fetch(url);
-            let json = await response.json();
-            setBooks(json.data);
-            setTitleText(selectedCategory + ' books: ')
-        } else {
+
             let url = 'http://0.0.0.0:8081/books/filter?limit='
                 + qty
+                + (selectedCategory ? '&category=' + selectedCategory : '')
                 + (format ? format : '')
                 + (selectedTag ? '&tags=' + selectedTag : '')
                 + (sort ? '&sort=' + sort : '')
@@ -48,7 +43,7 @@ function App() {
             } else {
                 setTitleText('All books: ')
             }
-        }
+
     }
 
     const getCategories = async () => {
