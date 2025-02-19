@@ -8,7 +8,7 @@ function SortAndOrderSelector ({setSort, setOrder}) {
         setOrder(e.target.value)
     }
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col bg-gray-200 p-3'>
             <h3>Sort by:</h3>
             <select onChange={sortHandler} className='text-black'>
                 <option value='picksCount'>Total Picks</option>

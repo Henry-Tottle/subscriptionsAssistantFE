@@ -24,7 +24,7 @@ function SearchBar ({setBooks, qty}) {
     return (
         <form className='my-5 text-center' onSubmit={handleSubmit}>
             <input
-                    className='text-black w-80 px-4 py-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                    className='text-black w-80 px-4 py-2 rounded-l-md border border-black focus:outline-none focus:ring-2 focus:ring-blue-500'
                     type='text'
                     value={searchTerm}
                     onChange={handleInputChange}

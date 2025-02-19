@@ -19,7 +19,7 @@ function TagsCheckboxList ({tags, setSelectedTag}) {
     return (
         <>
             <button onClick={showTagsHandler}>Show Tags</button>
-            {buttonToggle && <div className='flex flex-col'>{tags.map((tag,i) => (
+            {buttonToggle && <div className={buttonToggle ? 'flex flex-col' : 'hidden'}>{tags.map((tag,i) => (
                 <label key={i}><input onChange={tickBoxHandler} type='checkbox' key={i} value={tag.tag}/>{tag.tag}</label>
             ))}</div>}
         </>

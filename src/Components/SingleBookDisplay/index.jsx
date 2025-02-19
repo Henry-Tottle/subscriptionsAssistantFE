@@ -47,12 +47,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
         }
         }
 
-        // let response = await fetch(url);
-        // let json = await response.json();
-        // setBookDetails(json)
-        // if (json.items) {
-        //     setDescription(json.items[0].volumeInfo.description)
-        // }
+
 
 
     const getSubjects = async (isbn) => {
@@ -168,7 +163,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
 
 
     return (
-        <div className='text-center w-full'>
+        <div className='mx-auto text-center w-3/4 bg-gray-200 bg-opacity-80 rounded-t-2xl'>
             {
                 <Link to={'/book'}>
                     <Button buttonText='Back'/>
@@ -178,7 +173,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
             {description && <p className='w-1/2 mx-auto'>{description}</p>}
             <form onSubmit={submitClickHandler}>
                 <label>Tags: <input
-                    className='m-5 rounded-2xl border-2 border-gray-300 px-4 py-2 text-gray-700 bg-white ring-2 ring-blue-500'
+                    className='m-5 rounded-2xl border-2 border-black px-4 py-2 text-gray-700 bg-white ring-2 ring-blue-500'
                     type='text'
                     value={userInputTag}
                     onChange={(e) => setUserInputTag(e.target.value)}/></label>

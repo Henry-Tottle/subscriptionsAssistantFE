@@ -5,11 +5,11 @@ import SingleBookDisplay from "./Components/SingleBookDisplay/index.jsx";
 import LandingPage from "./Components/LandingPage/index.jsx";
 import DisplayQtySelector from "./Components/DisplayQtySelector/index.jsx";
 import SearchBar from "./Components/SearchBar/index.jsx";
-import TagsList from "./Components/TagsList/index.jsx";
 import BookImporter from "./Components/BookImporter/index.jsx";
 import FormatPicker from "./Components/FormatPicker/index.jsx";
 import TagsCheckboxList from "./Components/TagsCheckboxList/index.jsx";
 import SortAndOrderSelector from "./Components/SortAndOrderSelector/index.jsx";
+import Footer from "./Components/Footer/index.jsx";
 
 function App() {
 
@@ -78,15 +78,15 @@ function App() {
         <>
 
             <BrowserRouter>
-                <div className='bg-cyan-800 text-neutral-50 px-2'>
+                <div className=' text-black px-2 bg-[url(https://i.guim.co.uk/img/media/c3bc9f1361dd62ddd08f8ee9d0c7a463c2474d62/0_12_4016_2410/master/4016.jpg?width=1020&dpr=2&s=none&crop=none)] bg-fixed'>
 
-                    <h1 className='bg-cyan-500 text-4xl text-center'>Subscriptions Assistant</h1>
-                    <div className='flex flex-col'>
+                    <h1 className='mx-auto bg-gray-200 bg-opacity-80 text-8xl italic text-center w-3/4 rounded-b-2xl'>Subscriptions Assistant</h1>
+                    <div className='flex gap-10 mt-10'>
                         <Link to={'/book'}>
-                            <button className='border rounded px-2'>Home</button>
+                            <button className='border rounded px-2 bg-cyan-500'>Home</button>
                         </Link>
                         <Link to={'/import'}>
-                            <button className='border rounded px-2'>Book Importer</button>
+                            <button className='border rounded px-2 bg-cyan-500'>Book Importer</button>
                         </Link>
                     </div>
                     <div>
@@ -99,13 +99,16 @@ function App() {
                             <DisplayQtySelector setQty={setQty}/>
                         </div>
 
-                        <SortAndOrderSelector setOrder={setOrder} setSort={setSort}/>
+                        <div>
+                            <SortAndOrderSelector setOrder={setOrder} setSort={setSort}/>
+                        </div>
+
                     </div>
                     <div className='flex gap-4'>
-                        <div className='w-2/12 mt-32 p-2 bg-cyan-500 rounded'>
+                        <div className='mt-32 p-2 bg-gray-200 rounded-br h-min'>
                             <TagsCheckboxList tags={tags} setSelectedTag={setSelectedTag}/>
                         </div>
-                        <div className='w-10/12 ml-10'>
+                        <div className='w-10/12 ml-5'>
 
                             <Routes>
                                 <Route path={'/'} element={<LandingPage/>}/>
@@ -114,6 +117,7 @@ function App() {
                                        element={<SingleBookDisplay
                                                                    setSelectedTag={setSelectedTag}
                                                                    setSelectedCategory={setSelectedCategory}
+
                                                                    submit={submit}
                                                                    setSubmit={setSubmit}/>}/>
                                 <Route path={`/book`} element={<BooksDisplay books={books}
@@ -124,6 +128,7 @@ function App() {
                                                                              setSelectedCategory={setSelectedCategory}
                                                                              setSelectedTag={setSelectedTag}
                                                                              tags={tags}
+                                                                             setTitleText={setTitleText}
                                 />}/>
                             </Routes>
                         </div>
@@ -131,6 +136,8 @@ function App() {
 
                 </div>
             </BrowserRouter>
+
+            <Footer/>
         </>
     )
 }
