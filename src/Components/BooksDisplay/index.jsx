@@ -2,13 +2,9 @@ import {Link} from "react-router-dom";
 import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import CategoryPicker from "../CategoryPicker/index.jsx";
 
-function BooksDisplay({books, setBookID,titleText, categories, setSelectedCategory, setSelectedTag, setTitleText}) {
+function BooksDisplay({books, setBookID,titleText, categories, setSelectedCategory, setSelectedTag, setTitleText, handleClearCategories}) {
 
-    const handleClearCategories = () => {
-        setSelectedCategory(null)
-        setSelectedTag([null])
-        setTitleText('')
-    }
+
     return (
         <>
             <div className='rounded-t-2xl text-center flex flex-col w-1/2 mx-auto bg-gray-200 bg-opacity-80'>

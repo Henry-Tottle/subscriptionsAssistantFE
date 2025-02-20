@@ -69,7 +69,7 @@ function BookImporter () {
 
 
     return (
-        <>
+        <div className='bg-opacity-80 bg-gray-200'>
         <h1>Database Importer</h1>
             <p>This page has currently been set up to import Tom M's new title list to
             the subscriptions book database.</p>
@@ -77,7 +77,7 @@ function BookImporter () {
                 <label>CSV file to be imported: <input type='file' accept={'.csv'} onChange={handleFileChange}/></label>
                 <button type='submit'>Submit</button>
             </form>
-        </>
+        </div>
     )
 }
 

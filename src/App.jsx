@@ -24,6 +24,7 @@ function App() {
     const [sort, setSort] = useState('')
     const [order, setOrder] = useState('')
     const [submit, setSubmit] = useState(false)
+    const [tickBoxChanger, setTickBoxChanger] = useState(false)
 
     const getBooks = async () => {
 
@@ -59,6 +60,13 @@ function App() {
         console.log(json.data)
     }
 
+    const handleClearCategories = () => {
+        setSelectedCategory(null)
+        setSelectedTag([null])
+        setTitleText('')
+        setTickBoxChanger(!tickBoxChanger)
+    }
+
 
     useEffect(() => {
         getDistinctTags()
@@ -78,10 +86,10 @@ function App() {
         <>
 
             <BrowserRouter>
-                <div className=' text-black px-2 bg-[url(https://i.guim.co.uk/img/media/c3bc9f1361dd62ddd08f8ee9d0c7a463c2474d62/0_12_4016_2410/master/4016.jpg?width=1020&dpr=2&s=none&crop=none)] bg-fixed'>
+                <div className='font-sans text-black px-2 bg-[url(https://i.guim.co.uk/img/media/c3bc9f1361dd62ddd08f8ee9d0c7a463c2474d62/0_12_4016_2410/master/4016.jpg?width=1020&dpr=2&s=none&crop=none)] bg-fixed'>
 
                     <h1 className='mx-auto bg-gray-200 bg-opacity-80 text-8xl italic text-center w-3/4 rounded-b-2xl'>Subscriptions Assistant</h1>
-                    <div className='flex gap-10 mt-10'>
+                    <div className='flex gap-10 mt-10 mx-auto w-max'>
                         <Link to={'/book'}>
                             <button className='border rounded px-2 bg-cyan-500'>Home</button>
                         </Link>
@@ -105,9 +113,7 @@ function App() {
 
                     </div>
                     <div className='flex gap-4'>
-                        <div className='mt-32 p-2 bg-gray-200 rounded-br h-min'>
-                            <TagsCheckboxList tags={tags} setSelectedTag={setSelectedTag}/>
-                        </div>
+                            <TagsCheckboxList tags={tags} setSelectedTag={setSelectedTag} tickBoxChanger={tickBoxChanger}/>
                         <div className='w-10/12 ml-5'>
 
                             <Routes>
@@ -129,6 +135,7 @@ function App() {
                                                                              setSelectedTag={setSelectedTag}
                                                                              tags={tags}
                                                                              setTitleText={setTitleText}
+                                                                             handleClearCategories={handleClearCategories}
                                 />}/>
                             </Routes>
                         </div>

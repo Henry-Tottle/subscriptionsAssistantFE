@@ -85,7 +85,10 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
                 <li key={i} onClick={() => {
                     setSelectedTag(tag.tag);
                     setSelectedCategory('')
-                }}><Link to={'/book'}>{tag.tag}</Link><span onClick={() => removeTag(tag.tag, bookID)}> X </span></li>
+                }}><Link to={'/book'}>{tag.tag}</Link><span>       </span><button className='cursor-pointer' onClick={(e) =>
+                { e.stopPropagation()
+                    removeTag(tag.tag, bookID)
+                }}> X </button></li>
             ))
     }
 
