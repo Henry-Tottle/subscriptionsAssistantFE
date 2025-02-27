@@ -3,7 +3,7 @@ import SimpleBooksDetail from "../SimpleBooksDetail/index.jsx";
 import {useEffect, useState} from "react";
 import Button from "../Button/index.jsx";
 
-function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, submit}) {
+function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, submit, apiURL}) {
 
     const [book, setBook] = useState()
     const {bookID} = useParams()
@@ -18,7 +18,8 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
 
 
     const getBookByID = async (id) => {
-        let url = 'http://0.0.0.0:8081/book/' + id
+        let url = apiURL +
+            'book/' + id
         let response = await fetch(url);
         let json = await response.json();
         setBook(json.data)
@@ -65,7 +66,6 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
     }
 
     const removeTag = async (tag, bookID) => {
-        console.log(tag, bookID)
         let url = 'http://0.0.0.0:8081/delete/tags/' + bookID + '/' + tag
         let response = await fetch(url,{
             method: "DELETE",
@@ -75,7 +75,6 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
         await getTagsForSingleBook(bookID)
         setSubmit(!submit)
         let json = await response.json()
-        console.log(json)
 
     }
 
@@ -180,7 +179,7 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
                     type='text'
                     value={userInputTag}
                     onChange={(e) => setUserInputTag(e.target.value)}/></label>
-                <button type='submit'>Add Tag</button>
+                <button type='submit' className='border rounded p-2 bg-cyan-300 hover:bg-cyan-500'>Add Tag</button>
             </form>
             <div className='border-2 w-1/2 mx-auto my-5'>
                 <ul className='border-2 rounded-br'>Mr B's Tags: {tags && displayTags(tags)}</ul>

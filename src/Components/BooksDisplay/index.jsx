@@ -11,7 +11,7 @@ function BooksDisplay({books, setBookID,titleText, categories, setSelectedCatego
                 <span>Choose a category: </span>
                 <CategoryPicker categories={categories}
                                 setSelectedCategory={setSelectedCategory}/>
-                <span className='mb-5' onClick={handleClearCategories}> clear x</span>
+                <button className='mx-auto mb-5 border rounded-2xl bg-cyan-300 hover:bg-cyan-500 w-24' onClick={handleClearCategories}> clear x</button>
             </div>
             <h1 className='text-center text-4xl bg-gray-200 bg-opacity-80'>{titleText}</h1>
 

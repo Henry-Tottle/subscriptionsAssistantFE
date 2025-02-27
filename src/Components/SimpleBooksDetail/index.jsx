@@ -6,7 +6,6 @@ function SimpleBooksDetail ({book}) {
     const month = date.getMonth()
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const copyToClipboard = () => {
-        console.log(book.isbn)
         navigator.clipboard.writeText(book.isbn)
         alert('Copied to clipboard')
 

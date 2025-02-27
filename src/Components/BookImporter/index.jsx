@@ -2,7 +2,7 @@
 import Papa from "papaparse";
 import {useState , useRef} from "react";
 
-function BookImporter () {
+function BookImporter ({apiURL}) {
 
     const [file, setFile] = useState()
     const fileInputRef = useRef(null)
@@ -13,7 +13,8 @@ function BookImporter () {
     }
 
     const importToDatabase = async (bookData) => {
-        let url = 'http://0.0.0.0:8081/books/importBooks';
+        let url = apiURL +
+            'books/importBooks';
         let payload = {books : bookData};
         try {
             let response = await fetch(url, {

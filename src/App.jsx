@@ -11,6 +11,7 @@ import TagsCheckboxList from "./Components/TagsCheckboxList/index.jsx";
 import SortAndOrderSelector from "./Components/SortAndOrderSelector/index.jsx";
 import Footer from "./Components/Footer/index.jsx";
 
+
 function App() {
 
     const [books, setBooks] = useState([])
@@ -25,10 +26,14 @@ function App() {
     const [order, setOrder] = useState('')
     const [submit, setSubmit] = useState(false)
     const [tickBoxChanger, setTickBoxChanger] = useState(false)
+    const [searchResetTrigger, setSearchResetTrigger] = useState(false)
+
+    const apiURL = import.meta.env.VITE_API_URL
 
     const getBooks = async () => {
 
-            let url = 'http://0.0.0.0:8081/books/filter?limit='
+            let url = apiURL +
+                'books/filter?limit='
                 + qty
                 + (selectedCategory ? '&category=' + selectedCategory : '')
                 + (format ? format : '')
@@ -48,16 +53,17 @@ function App() {
     }
 
     const getCategories = async () => {
-        let response = await fetch('http://0.0.0.0:8081/categories');
+        let response = await fetch(apiURL +
+            'categories');
         let json = await response.json();
         setCategories(json.data);
     }
 
     const getDistinctTags = async () => {
-        let response = await fetch('http://0.0.0.0:8081/books/tags');
+        let response = await fetch(apiURL +
+            'books/tags');
         let json = await response.json();
         setTags(json.data);
-        console.log(json.data)
     }
 
     const handleClearCategories = () => {
@@ -65,6 +71,8 @@ function App() {
         setSelectedTag([null])
         setTitleText('')
         setTickBoxChanger(!tickBoxChanger)
+        setSearchResetTrigger(!searchResetTrigger)
+
     }
 
 
@@ -76,7 +84,6 @@ function App() {
     useEffect(() => {
         getBooks();
         getCategories();
-        console.log(order)
     }, [selectedCategory, selectedTag, qty, format, sort, order]);
 
     const [bookID, setBookID] = useState()
@@ -98,7 +105,7 @@ function App() {
                         </Link>
                     </div>
                     <div>
-                        <SearchBar setBooks={setBooks} qty={qty}/>
+                        <SearchBar setBooks={setBooks} qty={qty} apiURL={apiURL} searchResetTrigger={searchResetTrigger}/>
                     </div>
 
                     <div className='flex justify-between'>
@@ -118,11 +125,12 @@ function App() {
 
                             <Routes>
                                 <Route path={'/'} element={<LandingPage/>}/>
-                                <Route path={'/import'} element={<BookImporter/>}/>
+                                <Route path={'/import'} element={<BookImporter apiURL={apiURL}/>}/>
                                 <Route path={`/book/:bookID`}
                                        element={<SingleBookDisplay
                                                                    setSelectedTag={setSelectedTag}
                                                                    setSelectedCategory={setSelectedCategory}
+                                                                   apiURL={apiURL}
 
                                                                    submit={submit}
                                                                    setSubmit={setSubmit}/>}/>

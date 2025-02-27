@@ -1,13 +1,20 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-function SearchBar ({setBooks, qty}) {
+function SearchBar ({setBooks, qty, searchResetTrigger, apiURL}) {
 
-    const [searchTerm, setSearchTerm] = useState()
+    const [searchTerm, setSearchTermLocal] = useState('')
     const getBooksBySearch = async () => {
-        let url = 'http://0.0.0.0:8081/books/search/' + searchTerm + '/' + qty
-        let response = await fetch(url)
-        let json = await response.json()
-        setBooks(json.data)
+        if(!searchTerm.trim()) return
+        let url = apiURL +
+            'books/search/' + searchTerm + '/' + qty
+        try {
+            let response = await fetch(url)
+            let json = await response.json()
+            setBooks(json.data)
+        } catch (error) {
+            console.error("Error fetching books: ", error)
+        }
+
     }
 
     const handleSubmit = (e) => {
@@ -17,9 +24,14 @@ function SearchBar ({setBooks, qty}) {
 
     }
 
+
     const handleInputChange = (e) => {
-        setSearchTerm(e.target.value)
+        setSearchTermLocal(e.target.value)
     }
+
+    useEffect(() => {
+        setSearchTermLocal('')
+    }, [searchResetTrigger]);
 
     return (
         <form className='my-5 text-center' onSubmit={handleSubmit}>
