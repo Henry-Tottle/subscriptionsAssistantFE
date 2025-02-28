@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: 'build',  // Specify the output directory, change to 'dist' if preferred
     cssCodeSplit: true,  // Ensures CSS files are split correctly
     rollupOptions: {
-      input: '/src/main.jsx',  // Adjust this based on your entry point, default could be index.jsx or index.tsx
-    }
+      input: 'index.html',  // Make sure Vite uses the root index.html file
+    },
   },
 })
