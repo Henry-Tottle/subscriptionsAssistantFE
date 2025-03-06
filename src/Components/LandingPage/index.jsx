@@ -1,38 +1,24 @@
-import {useRef, useState} from "react";
+import {Link} from "react-router-dom";
 
 function LandingPage () {
 
-    const userNameRef = useRef()
-    const passwordRef = useRef()
-    const [message, setMessage] = useState()
-
-    const passwordHandler = async (e) => {
-        e.preventDefault()
-
-        const username = userNameRef.current.value
-        const password = passwordRef.current.value
-
-        // try {
-        //
-        // }
-    }
-
-
-
-
-
     return (
-<div className='bg-gray-200'>
-   <button >Generate Test Hash</button>
-    <p>{}</p>
-    <form >
-        <label>username: <input type='text' /></label>
-        <label>password: <input type='password' /> </label>
-        <button type='submit'>Submit</button>
-    </form>
-    <p>{}</p>
-</div>
-    )
-}
+        <div className='bg-gray-200 bg-opacity-80 m-14'>
+            <p>Welcome to the subscriptions assistant. This is a tool to assist in the picking of bespoke subscriptions
+                by combining our popular picks, with user tags and information from Google Books and Open Library to
+                allow informed decisions.</p>
+            <p>It is currently a work in progress.</p>
+            <p>Currently you can filter by category, tag and format, and sort ascending and descending. THe search bar
+                works independently from the rest of these filters at this stage.</p>
+            <p> To begin, click the button below:</p>
+            <div className='w-max mx-auto'>
+                <Link to={'/book'}>
+                    <button className='border rounded px-2 bg-cyan-500'>Start browsing books</button>
+                </Link>
+            </div>
 
+        </div>
+    )
+
+}
 export default LandingPage

@@ -18,6 +18,8 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
 
 
     const getBookByID = async (id) => {
+        console.log(apiURL +
+            'book/' + id)
         let url = apiURL +
             'book/' + id
         let response = await fetch(url);
@@ -66,7 +68,8 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
     }
 
     const removeTag = async (tag, bookID) => {
-        let url = 'http://0.0.0.0:8081/delete/tags/' + bookID + '/' + tag
+        let url = apiURL +
+            'delete/tags/' + bookID + '/' + tag
         let response = await fetch(url,{
             method: "DELETE",
                 headers: {
@@ -92,14 +95,16 @@ function SingleBookDisplay({setSelectedTag, setSelectedCategory, setSubmit, subm
     }
 
     const getTagsForSingleBook = async (bookID) => {
-        let url = 'http://0.0.0.0:8081/book/' + bookID + '/tags';
+        console.log(apiURL + 'book/' + bookID + '/tags')
+        let url = apiURL + 'book/' + bookID + '/tags';
         let response = await fetch(url);
         let json = await response.json()
         setTags(json.data)
     }
 
     const addTagForSingleBook = async (bookID, tag) => {
-        let url = 'http://0.0.0.0:8081/books/actions/add-tag';
+        let url = apiURL +
+            'books/actions/add-tag';
         let payload = {
             book_id : bookID,
             tag : tag

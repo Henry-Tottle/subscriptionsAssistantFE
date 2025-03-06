@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/',
   publicDir: 'public',
   build: {
-    outDir: 'dist',  // Specify the output directory, change to 'dist' if preferred
+    outDir: 'build',  // Specify the output directory, change to 'dist' if preferred
     cssCodeSplit: true,  // Ensures CSS files are split correctly
     rollupOptions: {
       input: 'index.html',  // Make sure Vite uses the root index.html file

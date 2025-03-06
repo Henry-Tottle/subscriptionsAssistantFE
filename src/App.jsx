@@ -37,7 +37,7 @@ function App() {
                 + qty
                 + (selectedCategory ? '&category=' + selectedCategory : '')
                 + (format ? format : '')
-                + (selectedTag ? '&tags=' + selectedTag : '')
+                + (selectedTag.length ? '&tags=' + selectedTag.join(',') : '')
                 + (sort ? '&sort=' + sort : '')
                 + (order ? '&sortOrder=' + order : '')
             let response = await fetch(url);
